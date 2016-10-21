@@ -14,6 +14,7 @@ public class Process implements Comparable<Process>{
 	int totalIOTime;
 	int waitingTime;
 	int randomNumber;
+	int prevCPUBurstTime;
 	
 	public Process(int arrivalTime, int B, int totalCPUTime, int M, int index){
 		this.arrivalTime = arrivalTime;
@@ -37,13 +38,13 @@ public class Process implements Comparable<Process>{
 	public void setBurstTime() {
 		this.status = Status.RUNNING; 
 		this.CPUBurstTime = RandomNumberGenerator.getRandomNumber(this.B);
+		this.prevCPUBurstTime = this.CPUBurstTime;
 		this.randomNumber = RandomNumberGenerator.rand;
 	}
 	
 	public void setIOTime() {
 		this.status = Status.BLOCKED;
-		this.IOBurstTime = RandomNumberGenerator.getRandomNumber(this.B);
-		this.randomNumber = RandomNumberGenerator.rand;
+		this.IOBurstTime = this.prevCPUBurstTime*this.M;
 	}
 	
 	public void terminateProcess(){

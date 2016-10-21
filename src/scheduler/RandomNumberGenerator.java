@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class RandomNumberGenerator {
 	private static ArrayList<Integer> randomNums = new ArrayList<Integer>();
-	private static int count = 0;
+	private static int index = 0;
 	static int rand;
 	
 	static{
@@ -29,11 +29,12 @@ public class RandomNumberGenerator {
 	}
 	
 	public static void reset(){
-		count = 0;
+		index = 0;
 	}
 	
 	public static int getRandomNumber(int max){
-		rand = randomNums.get(count++);
+		rand = randomNums.get(index);
+		index++;
 		return 1+(rand%max);
 	}
 }

@@ -41,7 +41,7 @@ public class FCFS extends SchedulingAlgorithm{
 		cycle++;
 		
 		while (finishedProcesses < processes.size()){
-			if (running != null) System.out.println("Find burst when choosing ready process to run " + running.randomNumber);
+			if (running != null)System.out.println("Find burst when choosing ready process to run " + running.randomNumber);
 			printCurrentCycle(cycle);
 			if (running != null){
 				running.runCPUBurst();
