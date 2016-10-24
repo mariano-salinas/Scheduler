@@ -14,7 +14,7 @@ class ComparatorByArrivalTime implements Comparator<Object>{
 		}
 		
 		else{
-			if(p1.CPUBurstTime>p2.CPUBurstTime)	return 1;
+			if(p1.index >p2.index)	return 1;
 			else return -1;
 		}
 	}

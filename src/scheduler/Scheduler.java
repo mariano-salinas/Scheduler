@@ -17,12 +17,10 @@ public class Scheduler {
 		Scanner input = createScanner(fileName);
 		ArrayList<Process> processes = readFileProcesses(input);
 		
-//		for (Process process: processes){
-//			process.printOut();
-//		}
-		
-		FCFS fcfs = new FCFS(processes, false);
-		fcfs.runAlgorithm();
+//		FCFS fcfs = new FCFS(processes, true);
+//		fcfs.run();
+		Uniprogrammed uniprogrammed = new Uniprogrammed(processes, true);
+		uniprogrammed.run();
 
 	}
 	
@@ -48,7 +46,6 @@ public class Scheduler {
 	public static ArrayList<Process> readFileProcesses(Scanner input){
 		ArrayList<Process> processes = new ArrayList<Process>();
 		int numModules = input.nextInt();
-		System.out.println(numModules);
 		String line = input.nextLine();
 		String[] list = line.split("\\),\\(|\\)|\\(");
 		int id = 0;

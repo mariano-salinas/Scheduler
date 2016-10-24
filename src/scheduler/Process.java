@@ -3,6 +3,7 @@ package scheduler;
 public class Process implements Comparable<Process>{
 	int arrivalTime;
 	int totalCPUTime;
+	int totalCPU;
 	int B;
 	int M;
 	int CPUBurstTime;
@@ -19,6 +20,7 @@ public class Process implements Comparable<Process>{
 	public Process(int arrivalTime, int B, int totalCPUTime, int M, int index){
 		this.arrivalTime = arrivalTime;
 		this.B = B;
+		this.totalCPU = totalCPUTime;
 		this.totalCPUTime = totalCPUTime;
 		this.M = M;
 		this.index = index;
@@ -49,6 +51,7 @@ public class Process implements Comparable<Process>{
 	
 	public void terminateProcess(){
 		this.status = Status.TERMINATED;
+		this.turnAroundTime = this.finishingTime - this.arrivalTime;
 	}
 	
 	public void readyProcess(){
@@ -62,15 +65,18 @@ public class Process implements Comparable<Process>{
 		return new Integer(this.index).compareTo(p.index);
 	}
 	
+	public String getParameters(){
+		return "(" + this.arrivalTime + "," + this.B + "," + this.totalCPU + "," + this.M + ")";
+	}
+	
 	public String toString(){
 		StringBuilder process = new StringBuilder();
 		process
-			.append("Process " + this.index + ":" +"\n")
-			.append("(A,B,C,M) = (" + this.arrivalTime + "," + this.B + "," + this.totalCPUTime + "," + this.M + "\n")
-			.append("Finishing time: " + this.finishingTime)
-			.append("Turnaround time " + this.turnAroundTime)
-			.append("I/O time: " + this.totalIOTime)
-			.append("Waiting time: " + this.waitingTime);
+			.append("(A,B,C,M) = " + this.getParameters() + "\n")
+			.append("Finishing time: " + this.finishingTime  + "\n")
+			.append("Turnaround time " + (this.finishingTime - this.arrivalTime) + "\n")
+			.append("I/O time: " + this.totalIOTime + "\n")
+			.append("Waiting time: " + this.waitingTime + "\n");
 		
 		return process.toString();
 		
