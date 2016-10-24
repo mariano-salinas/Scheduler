@@ -12,15 +12,19 @@ public class Scheduler {
 	ArrayList<Process> processes;
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		String fileName = args[0];
 		Scanner input = createScanner(fileName);
 		ArrayList<Process> processes = readFileProcesses(input);
 		
 //		FCFS fcfs = new FCFS(processes, true);
 //		fcfs.run();
-		Uniprogrammed uniprogrammed = new Uniprogrammed(processes, true);
-		uniprogrammed.run();
+//		Uniprogrammed uniprogrammed = new Uniprogrammed(processes, true);
+//		uniprogrammed.run();
+//		SJF sjf = new SJF(processes, true);
+//		sjf.run();
+		RR rr = new RR(processes, true);
+		rr.run();
+		
 
 	}
 	

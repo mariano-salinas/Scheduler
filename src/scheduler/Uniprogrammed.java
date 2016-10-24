@@ -5,13 +5,14 @@ import java.util.Collections;
 import java.util.Iterator;
 
 public class Uniprogrammed  extends SchedulingAlgorithm{
+	ArrivalComparator comp = new ArrivalComparator();
 
 	public Uniprogrammed(ArrayList<Process> processes, boolean verbose) {
 		super(processes, verbose);
 	}
 	
 	public void run(){
-		setup();
+		setup(comp);
 		int cycle = 0;
 		int finishedProcesses = 0;
 		int cpuUsed = 0;
@@ -38,7 +39,7 @@ public class Uniprogrammed  extends SchedulingAlgorithm{
 				if (running.totalCPUTime == 0){
 					finishedProcesses++;
 					running.terminateProcess(cycle);
-					running = checkForNextProcess();
+					running = null;
 				} else if (running.CPUBurstTime == 0){
 					running.setIOTime();				
 				}

@@ -16,6 +16,9 @@ public class Process implements Comparable<Process>{
 	int waitingTime;
 	int randomNumber;
 	int prevCPUBurstTime;
+	int totalCPUTimeUsed = 0;
+	int currentQuantumTime;
+	boolean isQuantum = false;
 	
 	public Process(int arrivalTime, int B, int totalCPUTime, int M, int index){
 		this.arrivalTime = arrivalTime;
@@ -28,13 +31,14 @@ public class Process implements Comparable<Process>{
 	}
 	
 	public void runCPUBurst(){
-		totalCPUTime--;
-		CPUBurstTime--;
+		this.totalCPUTime--;
+		totalCPUTimeUsed++;
+		this.CPUBurstTime--;
 	}
 	
 	public void runIOBurst(){
-		IOBurstTime--;
-		totalIOTime++;
+		this.IOBurstTime--;
+		this.totalIOTime++;
 	}
 
 	public void setBurstTime() {

@@ -8,14 +8,14 @@ import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class FCFS extends SchedulingAlgorithm{
-	ComparatorByArrivalTime comp = new ComparatorByArrivalTime();
+	ArrivalComparator comp = new ArrivalComparator();
 	
 	public FCFS(ArrayList<Process> processes, boolean verbose){
 		super(processes, verbose);
 	}
 	
 	public void run(){
-		setup();
+		setup(comp);
 		int cycle = 0;
 		int finishedProcesses = 0;
 		int cpuUsed = 0;
@@ -45,11 +45,11 @@ public class FCFS extends SchedulingAlgorithm{
 				if (running.totalCPUTime == 0){
 					finishedProcesses++;
 					running.terminateProcess(cycle);
-					running = checkForNextProcess();
+					running = null;
 				} else if (running.CPUBurstTime == 0){
 					running.setIOTime();
 					blocked.add(running);
-					running = checkForNextProcess();
+					running = null;
 				}
 			}
 			

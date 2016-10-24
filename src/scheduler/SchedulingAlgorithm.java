@@ -3,6 +3,7 @@ package scheduler;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -13,15 +14,14 @@ public class SchedulingAlgorithm {
 	Queue<Process> ready;
 	Queue<Process> unstarted;
 	boolean verbose;
-	ComparatorByArrivalTime comp = new ComparatorByArrivalTime();
 	
 	public SchedulingAlgorithm(ArrayList<Process> processes, boolean verbose){
 		this.processes = processes;
 		this.verbose = verbose;
 	}
 	
-	public void setup(){
-		printInputs();
+	public void setup(Comparator<Object> comp){
+		printInputs(comp);
 		initializeLists();
 	}
 	
@@ -63,7 +63,7 @@ public class SchedulingAlgorithm {
 		}
 	}
 	
-	public void printInputs(){
+	public void printInputs(Comparator<Object> comp){
 		int size = processes.size();
 		System.out.print("The original input was: " + size + " ");
 		for (Process process: processes){
