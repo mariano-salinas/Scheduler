@@ -16,6 +16,7 @@ public class Uniprogrammed  extends SchedulingAlgorithm{
 		int finishedProcesses = 0;
 		int cpuUsed = 0;
 		int ioUsed = 0;
+		Process blocked = null;
 		
 		if (verbose) printCurrentCycle(cycle);
 		Process running = ready.poll();
@@ -27,25 +28,28 @@ public class Uniprogrammed  extends SchedulingAlgorithm{
 		while (finishedProcesses < processes.size()){
 			if (verbose) printCurrentCycle(cycle);
 			
-			if (!blocked.isEmpty()) ioUsed++;
-			
 			for (Process process: ready){
 				process.waitingTime++;
 			}
 			
-			if (running != null){
+			if (running.status == Status.RUNNING){
 				cpuUsed++;
 				running.runCPUBurst();
 				if (running.totalCPUTime == 0){
 					finishedProcesses++;
-					running.finishingTime = cycle;
-					running.terminateProcess();
+					running.terminateProcess(cycle);
 					running = checkForNextProcess();
 				} else if (running.CPUBurstTime == 0){
-					running.setIOTime();
+					running.setIOTime();				
+				}
+			} else {
+				ioUsed++;
+				running.runIOBurst();
+				if (running.IOBurstTime == 0){
+					running.setBurstTime();
+					if (verbose) System.out.println("Find burst when choosing ready process to run " + running.randomNumber);
 				}
 			}
-			
 			
 			while (!unstarted.isEmpty() && unstarted.peek().arrivalTime == cycle){
 				Process current = unstarted.poll();
@@ -59,7 +63,7 @@ public class Uniprogrammed  extends SchedulingAlgorithm{
 			cycle++;
 		}
 		
-		System.out.println("The scheduling algorithm used is First Come First Serve");
+		System.out.println("The scheduling algorithm used is Uniprogrammed");
 		printAllProcesses();
 		printSummary(cycle-1, cpuUsed, ioUsed);
 	}
@@ -70,7 +74,6 @@ public class Uniprogrammed  extends SchedulingAlgorithm{
 		if (!ready.isEmpty()){
 			next = ready.poll();
 			next.setBurstTime();
-			if (verbose) System.out.println("Find burst when choosing ready process to run " + next.randomNumber);
 		}
 		return next;	
 	}

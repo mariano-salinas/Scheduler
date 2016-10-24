@@ -49,7 +49,8 @@ public class Process implements Comparable<Process>{
 		this.IOBurstTime = this.prevCPUBurstTime*this.M;
 	}
 	
-	public void terminateProcess(){
+	public void terminateProcess(int cycle){
+		this.finishingTime = cycle;
 		this.status = Status.TERMINATED;
 		this.turnAroundTime = this.finishingTime - this.arrivalTime;
 	}
