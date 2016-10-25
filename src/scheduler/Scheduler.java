@@ -29,14 +29,14 @@ public class Scheduler {
 		Scanner input = createScanner(fileName);
 		ArrayList<Process> processes = readFileProcesses(input);
 				
-//		FCFS fcfs = new FCFS(clone(processes), verbose);
-//		fcfs.run();
-//		Uniprogrammed uniprogrammed = new Uniprogrammed(clone(processes), verbose);
-//		uniprogrammed.run();
+		FCFS fcfs = new FCFS(clone(processes), verbose);
+		fcfs.run();
+		Uniprocessed uniprocessed = new Uniprocessed(clone(processes), verbose);
+		uniprocessed.run();
 		SJF sjf = new SJF(clone(processes), verbose);
 		sjf.run();
-//		RR rr = new RR(clone(processes), verbose);
-//		rr.run();
+		RR rr = new RR(clone(processes), verbose);
+		rr.run();
 		
 
 	}

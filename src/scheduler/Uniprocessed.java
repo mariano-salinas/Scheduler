@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 
-public class Uniprogrammed  extends SchedulingAlgorithm{
+public class Uniprocessed  extends SchedulingAlgorithm{
 	ArrivalComparator comp = new ArrivalComparator();
 	ArrayList<Process> processes;
 	boolean verbose;
 
-	public Uniprogrammed(ArrayList<Process> processes, boolean verbose) {
+	public Uniprocessed(ArrayList<Process> processes, boolean verbose) {
 		super();
 		this.processes = processes;
 		this.verbose = verbose;

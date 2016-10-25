@@ -84,7 +84,7 @@ public class SJF extends SchedulingAlgorithm{
 		printSummary(processes, cycle-1, cpuUsed, ioUsed);
 	}
 	
-	public void initializeLists(){
+	public void initializeLists(ArrayList<Process> processes){
 		blocked =  new ArrayList<Process>();
 		ready = new PriorityQueue<Process>(1000, priorityComp);
 		unstarted =  new ArrayDeque<Process>();
