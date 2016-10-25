@@ -20,16 +20,17 @@ public class RR extends SchedulingAlgorithm{
 	}
 	
 	public void run(){
+		int cycle = 0;
+		if (verbose) printCurrentCycle(processes, cycle);
+		
 		setup(processes, comp);
 		setQuantumTime();
 		
-		tempQueue = new PriorityQueue(comp);
-		int cycle = 0;
+		tempQueue = new PriorityQueue(1000,comp);
 		int finishedProcesses = 0;
 		int cpuUsed = 0;
 		int ioUsed = 0;
 		
-		if (verbose) printCurrentCycle(processes, cycle);
 		Process running = ready.poll();
 		running.setBurstTime();
 		if (verbose) System.out.println("Find burst when choosing ready process to run " + running.randomNumber);

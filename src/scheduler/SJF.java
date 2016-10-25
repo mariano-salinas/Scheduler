@@ -86,7 +86,7 @@ public class SJF extends SchedulingAlgorithm{
 	
 	public void initializeLists(){
 		blocked =  new ArrayList<Process>();
-		ready = new PriorityQueue<Process>(priorityComp);
+		ready = new PriorityQueue<Process>(1000, priorityComp);
 		unstarted =  new ArrayDeque<Process>();
 		
 		for (int i = 0; i < processes.size(); i++){

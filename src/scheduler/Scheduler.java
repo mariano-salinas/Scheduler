@@ -28,18 +28,15 @@ public class Scheduler {
 		}
 		Scanner input = createScanner(fileName);
 		ArrayList<Process> processes = readFileProcesses(input);
-		
-		
-		System.out.println("arguments " + Arrays.toString(args));
-		
-		FCFS fcfs = new FCFS(clone(processes), verbose);
-		fcfs.run();
-		Uniprogrammed uniprogrammed = new Uniprogrammed(clone(processes), verbose);
-		uniprogrammed.run();
+				
+//		FCFS fcfs = new FCFS(clone(processes), verbose);
+//		fcfs.run();
+//		Uniprogrammed uniprogrammed = new Uniprogrammed(clone(processes), verbose);
+//		uniprogrammed.run();
 		SJF sjf = new SJF(clone(processes), verbose);
 		sjf.run();
-		RR rr = new RR(clone(processes), verbose);
-		rr.run();
+//		RR rr = new RR(clone(processes), verbose);
+//		rr.run();
 		
 
 	}

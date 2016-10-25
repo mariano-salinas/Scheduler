@@ -16,14 +16,15 @@ public class Uniprogrammed  extends SchedulingAlgorithm{
 	}
 	
 	public void run(){
-		setup(processes, comp);
 		int cycle = 0;
+		if (verbose) printCurrentCycle(processes, cycle);
+		
+		setup(processes, comp);
 		int finishedProcesses = 0;
 		int cpuUsed = 0;
 		int ioUsed = 0;
 		Process blocked = null;
 		
-		if (verbose) printCurrentCycle(processes, cycle);
 		Process running = ready.poll();
 		running.setBurstTime();
 		if (verbose) System.out.println("Find burst when choosing ready process to run " + running.randomNumber);
