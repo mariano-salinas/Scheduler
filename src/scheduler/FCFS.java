@@ -9,26 +9,30 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class FCFS extends SchedulingAlgorithm{
 	ArrivalComparator comp = new ArrivalComparator();
+	ArrayList<Process> processes;
+	boolean verbose;
 	
 	public FCFS(ArrayList<Process> processes, boolean verbose){
-		super(processes, verbose);
+		super();
+		this.processes = processes;
+		this.verbose = verbose;
 	}
 	
 	public void run(){
-		setup(comp);
+		setup(processes, comp);
 		int cycle = 0;
 		int finishedProcesses = 0;
 		int cpuUsed = 0;
 		int ioUsed = 0;
 		
-		if (verbose) printCurrentCycle(cycle);
+		if (verbose) printCurrentCycle(processes, cycle);
 		Process running = ready.poll();
 		running.setBurstTime();
 		if (verbose) System.out.println("Find burst when choosing ready process to run " + running.randomNumber);
 
 		cycle++;
 		while (finishedProcesses < processes.size()){
-			if (verbose) printCurrentCycle(cycle);
+			if (verbose) printCurrentCycle(processes, cycle);
 			
 			if (!blocked.isEmpty()) ioUsed++;
 			for (Process process: blocked){
@@ -78,8 +82,8 @@ public class FCFS extends SchedulingAlgorithm{
 		}
 		
 		System.out.println("The scheduling algorithm used is First Come First Serve");
-		printAllProcesses();
-		printSummary(cycle-1, cpuUsed, ioUsed);
+		printAllProcesses(processes);
+		printSummary(processes, cycle-1, cpuUsed, ioUsed);
 	}
 	
 	public Process checkForNextProcess(){

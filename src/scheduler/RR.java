@@ -10,13 +10,17 @@ public class RR extends SchedulingAlgorithm{
 	ArrivalComparator comp = new ArrivalComparator();
 	int quantum = 2;
 	PriorityQueue<Process> tempQueue;
+	ArrayList<Process> processes;
+	boolean verbose;
 
 	public RR(ArrayList<Process> processes, boolean verbose) {
-		super(processes, verbose);
+		super();
+		this.processes = processes;
+		this.verbose = verbose;
 	}
 	
 	public void run(){
-		setup(comp);
+		setup(processes, comp);
 		setQuantumTime();
 		
 		tempQueue = new PriorityQueue(comp);
@@ -25,18 +29,15 @@ public class RR extends SchedulingAlgorithm{
 		int cpuUsed = 0;
 		int ioUsed = 0;
 		
-		if (verbose) printCurrentCycle(cycle);
+		if (verbose) printCurrentCycle(processes, cycle);
 		Process running = ready.poll();
 		running.setBurstTime();
 		if (verbose) System.out.println("Find burst when choosing ready process to run " + running.randomNumber);
 
 		cycle++;
 		while (finishedProcesses < processes.size()){
-			if (verbose) printCurrentCycle(cycle);
-			
-			if (cycle == 31){
-				System.out.println("");
-			}
+			if (verbose) printCurrentCycle(processes, cycle);
+
 			if (!blocked.isEmpty()) ioUsed++;
 			for (Process process: blocked){
 				process.runIOBurst();
@@ -79,7 +80,6 @@ public class RR extends SchedulingAlgorithm{
 				}
 			}
 			
-			//need to figure out how to sort by adding
 			while (!unstarted.isEmpty() && unstarted.peek().arrivalTime == cycle){
 				Process current = unstarted.poll();
 				current.readyProcess();
@@ -96,8 +96,8 @@ public class RR extends SchedulingAlgorithm{
 		}
 		
 		System.out.println("The scheduling algorithm used is Round Robin");
-		printAllProcesses();
-		printSummary(cycle-1, cpuUsed, ioUsed);
+		printAllProcesses(processes);
+		printSummary(processes, cycle-1, cpuUsed, ioUsed);
 	}
 	
 	public void setQuantumTime(){

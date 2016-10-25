@@ -12,17 +12,33 @@ public class Scheduler {
 	ArrayList<Process> processes;
 
 	public static void main(String[] args) {
+		boolean verbose = false;
 		String fileName = args[0];
+		if (args.length == 2){
+			if (args[1].equals("--verbose")){
+				verbose = true;
+			} else {
+				System.out.println("Unrecognized second argument");
+				System.exit(1);
+			}
+		}
+		if (args.length > 2){
+			System.out.println("Too many arguments");
+			System.exit(1);
+		}
 		Scanner input = createScanner(fileName);
 		ArrayList<Process> processes = readFileProcesses(input);
 		
-//		FCFS fcfs = new FCFS(processes, true);
-//		fcfs.run();
-//		Uniprogrammed uniprogrammed = new Uniprogrammed(processes, true);
-//		uniprogrammed.run();
-//		SJF sjf = new SJF(processes, true);
-//		sjf.run();
-		RR rr = new RR(processes, true);
+		
+		System.out.println("arguments " + Arrays.toString(args));
+		
+		FCFS fcfs = new FCFS(clone(processes), verbose);
+		fcfs.run();
+		Uniprogrammed uniprogrammed = new Uniprogrammed(clone(processes), verbose);
+		uniprogrammed.run();
+		SJF sjf = new SJF(clone(processes), verbose);
+		sjf.run();
+		RR rr = new RR(clone(processes), verbose);
 		rr.run();
 		
 
@@ -78,6 +94,15 @@ public class Scheduler {
 		}
 		
 		return true;
+	}
+	
+	public static ArrayList<Process> clone(ArrayList<Process> processes){
+		ArrayList<Process> processesClone = new ArrayList<Process>();
+		for (Process process: processes){
+			processesClone.add(process.clone());
+		}
+		return processesClone;
+		
 	}
 
 }

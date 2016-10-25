@@ -6,20 +6,24 @@ import java.util.Iterator;
 
 public class Uniprogrammed  extends SchedulingAlgorithm{
 	ArrivalComparator comp = new ArrivalComparator();
+	ArrayList<Process> processes;
+	boolean verbose;
 
 	public Uniprogrammed(ArrayList<Process> processes, boolean verbose) {
-		super(processes, verbose);
+		super();
+		this.processes = processes;
+		this.verbose = verbose;
 	}
 	
 	public void run(){
-		setup(comp);
+		setup(processes, comp);
 		int cycle = 0;
 		int finishedProcesses = 0;
 		int cpuUsed = 0;
 		int ioUsed = 0;
 		Process blocked = null;
 		
-		if (verbose) printCurrentCycle(cycle);
+		if (verbose) printCurrentCycle(processes, cycle);
 		Process running = ready.poll();
 		running.setBurstTime();
 		if (verbose) System.out.println("Find burst when choosing ready process to run " + running.randomNumber);
@@ -27,7 +31,7 @@ public class Uniprogrammed  extends SchedulingAlgorithm{
 		
 		
 		while (finishedProcesses < processes.size()){
-			if (verbose) printCurrentCycle(cycle);
+			if (verbose) printCurrentCycle(processes, cycle);
 			
 			for (Process process: ready){
 				process.waitingTime++;
@@ -65,8 +69,8 @@ public class Uniprogrammed  extends SchedulingAlgorithm{
 		}
 		
 		System.out.println("The scheduling algorithm used is Uniprogrammed");
-		printAllProcesses();
-		printSummary(cycle-1, cpuUsed, ioUsed);
+		printAllProcesses(processes);
+		printSummary(processes, cycle-1, cpuUsed, ioUsed);
 	}
 	
 	public Process checkForNextProcess(){

@@ -8,24 +8,21 @@ import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class SchedulingAlgorithm {
-	ArrayList<Process> processes;
-	ArrayList<Process> unsortedProcesses;
 	ArrayList<Process> blocked;
 	Queue<Process> ready;
 	Queue<Process> unstarted;
 	boolean verbose;
 	
-	public SchedulingAlgorithm(ArrayList<Process> processes, boolean verbose){
-		this.processes = processes;
-		this.verbose = verbose;
+	public SchedulingAlgorithm(){
 	}
 	
-	public void setup(Comparator<Object> comp){
-		printInputs(comp);
-		initializeLists();
+	public void setup(ArrayList<Process> processes, Comparator<Object> comp){
+		initializeLists(processes);
+		printInputs(processes, comp);
+		RandomNumberGenerator.reset();
 	}
 	
-	public void initializeLists(){
+	public void initializeLists(ArrayList<Process> processes){
 		blocked =  new ArrayList<Process>();
 		ready = new ConcurrentLinkedQueue<Process>();
 		unstarted =  new ArrayDeque<Process>();
@@ -42,7 +39,7 @@ public class SchedulingAlgorithm {
 		}
 	}
 	
-	public void printCurrentCycle(int cycle){
+	public void printCurrentCycle(ArrayList<Process> processes, int cycle){
 		System.out.print(String.format("Before cycle %-2d %-3s", cycle, ":"));
 		for (Process process: processes){
 			if (process.status == Status.RUNNING){
@@ -56,14 +53,14 @@ public class SchedulingAlgorithm {
 		System.out.println("");
 	}
 	
-	public void printAllProcesses(){
+	public void printAllProcesses(ArrayList<Process> processes){
 		for (int i = 0; i < processes.size(); i++){
 			System.out.println("\nProcess " + i);
 			System.out.println(processes.get(i));
 		}
 	}
 	
-	public void printInputs(Comparator<Object> comp){
+	public void printInputs(ArrayList<Process> processes, Comparator<Object> comp){
 		int size = processes.size();
 		System.out.print("The original input was: " + size + " ");
 		for (Process process: processes){
@@ -77,7 +74,7 @@ public class SchedulingAlgorithm {
 		System.out.print("\n");
 	}
 	
-	public void printSummary(int finishingTime, int cpuUsed, int ioUsed){
+	public void printSummary(ArrayList<Process> processes, int finishingTime, int cpuUsed, int ioUsed){
 		System.out.println("Summary Data:");
 		System.out.println("Finishing time: " + finishingTime);
 		System.out.printf("CPU utilization %.6f\n", (double)cpuUsed/finishingTime);
@@ -91,6 +88,6 @@ public class SchedulingAlgorithm {
 			totalWaiting += process.waitingTime;
 		}
 		System.out.printf("Average turnaround time: %.6f\n", (double)totalTurnAround/processes.size());
-		System.out.printf("Average waiting time: %.6f", (double)totalWaiting/(processes.size()));
+		System.out.printf("Average waiting time: %.6f\n\n", (double)totalWaiting/(processes.size()));
 	}
 }

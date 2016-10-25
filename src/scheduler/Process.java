@@ -1,6 +1,6 @@
 package scheduler;
 
-public class Process implements Comparable<Process>{
+public class Process implements Comparable<Process>, Cloneable{
 	int arrivalTime;
 	int totalCPUTime;
 	int totalCPU;
@@ -86,4 +86,16 @@ public class Process implements Comparable<Process>{
 		return process.toString();
 		
 	}
+	
+	@Override
+	protected Process clone() { 
+		Process clone = null; 
+		try{
+			clone = (Process) super.clone(); 
+			} catch(CloneNotSupportedException e){ 
+				throw new RuntimeException(e); // won't happen } return clone; }
+		}
+		return clone;
+	}
+
 }
